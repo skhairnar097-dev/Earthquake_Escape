@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Escape - Interactive 3D Simulation & Emergency Game</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Rendering Target -->
+    <div id="canvas-container"></div>
+    <div id="vignette-overlay" class="vignette-overlay"></div>
+
+    <!-- START SCREEN: INTENSITY & LEVEL SELECTOR -->
+    <div id="start-screen">
+        <div class="menu-card">
+            <div class="game-title-header">
+                <span class="badge-tag">Computer Graphics Mini-Project</span>
+                <h1 class="main-title">■ EARTHQUAKE ESCAPE</h1>
+                <p class="subtitle">Interactive 3D Earthquake Simulation & Emergency Evacuation Game</p>
+            </div>
+
+            <!-- STEP 1: SELECT INTENSITY FIRST -->
+            <div class="menu-section">
+                <div class="section-label">
+                    <span class="step-num">Step 1</span> Select Quake Intensity (Magnitude)
+                </div>
+                <div class="intensity-selection-grid">
+                    <div class="intensity-card" data-intensity="low">
+                        <div class="int-header">
+                            <span class="int-badge badge-low">LOW</span>
+                            <span class="int-mag">5.5 Mw</span>
+                        </div>
+                        <h4 class="int-title">Mild Tremor</h4>
+                        <p class="int-desc">Gentle ground waves, minor structural sway, 55s escape window.</p>
+                        <span class="int-mult">Score: 1.0x</span>
+                    </div>
+                    <div class="intensity-card selected" data-intensity="medium">
+                        <div class="int-header">
+                            <span class="int-badge badge-med">MEDIUM</span>
+                            <span class="int-mag">7.0 Mw</span>
+                        </div>
+                        <h4 class="int-title">Strong Quake</h4>
+                        <p class="int-desc">Active building resonance, falling rubble, 45s escape window.</p>
+                        <span class="int-mult">Score: 1.5x</span>
+                    </div>
+                    <div class="intensity-card" data-intensity="high">
+                        <div class="int-header">
+                            <span class="int-badge badge-high">HIGH</span>
+                            <span class="int-mag">8.2 Mw</span>
+                        </div>
+                        <h4 class="int-title">Severe Quake</h4>
+                        <p class="int-desc">Violent shaking, dense roadblock debris, 35s escape window.</p>
+                        <span class="int-mult">Score: 2.2x</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: SELECT LEVEL ONE-BY-ONE -->
+            <div class="menu-section">
+                <div class="section-label-row">
+                    <div class="section-label">
+                        <span class="step-num">Step 2</span> Select Mission Level (Unlocked One-by-One)
+                    </div>
+                    <span id="progress-summary-badge" class="progress-pill">Progression: Level 1 / 20 Unlocked</span>
+                </div>
+                <div class="level-selection-grid">
+                    <div class="level-card selected" data-level="1">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 1</span>
+                            <span class="lvl-status-badge unlocked">UNLOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Downtown Plaza</h3>
+                        <p class="lvl-desc">Wide avenues, clear corridors, daylight environment.</p>
+                    </div>
+                    <div class="level-card locked" data-level="2">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 2</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Financial District</h3>
+                        <p class="lvl-desc">Narrow alleys, glass facades, sunset golden-hour lighting.</p>
+                    </div>
+                    <div class="level-card locked" data-level="3">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 3</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Industrial Sector</h3>
+                        <p class="lvl-desc">Tall factories, siren blackout haze, falling water tanks.</p>
+                    </div>
+                    <div class="level-card locked" data-level="4">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 4</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Metropolis Center</h3>
+                        <p class="lvl-desc">Dense multi-block district, driving rainstorm, heavy roadblocks.</p>
+                    </div>
+                    <div class="level-card locked" data-level="5">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 5</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Ground Zero</h3>
+                        <p class="lvl-desc">Epicenter cataclysm, volcanic ember storm, falling rubble.</p>
+                    </div>
+                    <div class="level-card locked" data-level="6">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 6</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Neon Transit Hub</h3>
+                        <p class="lvl-desc">Cyber metro arcade, flickering power grid, northeast helipad escape.</p>
+                    </div>
+                    <div class="level-card locked" data-level="7">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 7</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Hillside Overlook</h3>
+                        <p class="lvl-desc">Seismic cliffside gorge, alpine morning mist, mountain tunnel shelter.</p>
+                    </div>
+                    <div class="level-card locked" data-level="8">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 8</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Bio-Tech Zone</h3>
+                        <p class="lvl-desc">Ruptured containment tanks, toxic vapors, northwest decon dome.</p>
+                    </div>
+                    <div class="level-card locked" data-level="9">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 9</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Coastal Sea Wall</h3>
+                        <p class="lvl-desc">Tsunami harbor squall, shattered maritime docks, southeast lighthouse.</p>
+                    </div>
+                    <div class="level-card locked" data-level="10">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 10</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">The Apex Citadel</h3>
+                        <p class="lvl-desc">10.0 Mw super-quake cataclysm, blazing inferno, ultimate cross-city escape.</p>
+                    </div>
+                    <div class="level-card locked" data-level="11">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 11</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Subway Concourse</h3>
+                        <p class="lvl-desc">Subterranean arcade, flooded tunnels, south transit shelter.</p>
+                    </div>
+                    <div class="level-card locked" data-level="12">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 12</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Skyline Promenade</h3>
+                        <p class="lvl-desc">High-altitude pedestrian skybridge, vertigo winds, west ridge vault.</p>
+                    </div>
+                    <div class="level-card locked" data-level="13">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 13</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Industrial Rail Yards</h3>
+                        <p class="lvl-desc">Derailed freight wagons, severed high-voltage cables, east depot bunker.</p>
+                    </div>
+                    <div class="level-card locked" data-level="14">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 14</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Cathedral District</h3>
+                        <p class="lvl-desc">Gothic spires, toppling bell towers, north cloister sanctuary.</p>
+                    </div>
+                    <div class="level-card locked" data-level="15">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 15</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Omega Epicenter</h3>
+                        <p class="lvl-desc">10.5 Mw mega-thrust apocalypse, seismic chasms, central core vault.</p>
+                    </div>
+                    <div class="level-card locked" data-level="16">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 16</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Volcanic Ridge Caldera</h3>
+                        <p class="lvl-desc">Basalt ash storm, molten ground ruptures, mountain geothermal station.</p>
+                    </div>
+                    <div class="level-card locked" data-level="17">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 17</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Airport Runway Hub</h3>
+                        <p class="lvl-desc">Turbulent crosswinds, shattered control tower, aircraft hangar blast shelter.</p>
+                    </div>
+                    <div class="level-card locked" data-level="18">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 18</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Old Port Canals</h3>
+                        <p class="lvl-desc">High tide tidal surge, collapsing stone bridges, maritime fort outpost.</p>
+                    </div>
+                    <div class="level-card locked" data-level="19">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 19</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">High-Tech Silicon Core</h3>
+                        <p class="lvl-desc">EMP power overload, flickering cyber neon grid, faraday shield vault.</p>
+                    </div>
+                    <div class="level-card locked" data-level="20">
+                        <div class="lvl-card-top">
+                            <span class="lvl-badge">LEVEL 20</span>
+                            <span class="lvl-status-badge locked">🔒 LOCKED</span>
+                        </div>
+                        <h3 class="lvl-title">Armageddon Epicenter</h3>
+                        <p class="lvl-desc">11.0 Mw planetary cataclysm, total structural collapse, titan deep core sanctuary.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Overview -->
+            <div>
+                <div class="section-label">Player Controls</div>
+                <div class="controls-info-bar">
+                    <div class="ctrl-item"><span class="kbd">W</span><span class="kbd">S</span> / <span class="kbd">↑</span><span class="kbd">↓</span> Move</div>
+                    <div class="ctrl-item"><span class="kbd">←</span><span class="kbd">→</span> Steer Left / Right</div>
+                    <div class="ctrl-item"><span class="kbd">A</span><span class="kbd">D</span> Strafe</div>
+                    <div class="ctrl-item"><span class="kbd">Shift</span> Sprint</div>
+                    <div class="ctrl-item"><span class="kbd">Space</span> Jump</div>
+                    <div class="ctrl-item"><span class="kbd">Mouse Drag</span> Look Around</div>
+                    <div class="ctrl-item"><span class="kbd">V</span> 1st/3rd Person View</div>
+                </div>
+            </div>
+
+            <div class="start-actions-row">
+                <button id="btn-start-game" class="btn-primary-action">
+                    <span id="btn-start-label">START LEVEL 1 (MEDIUM 7.0 Mw)</span>
+                    <span>➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IN-GAME HUD -->
+    <div id="game-hud" class="ui-layer hidden">
+        <!-- Top Bar -->
+        <div class="hud-top-bar">
+            <!-- Escape Timer -->
+            <div class="hud-panel timer-box">
+                <span class="hud-label">EVACUATION COUNTDOWN</span>
+                <span id="hud-timer-val" class="hud-value-large">45s</span>
+                <div class="progress-bar-bg">
+                    <div id="hud-timer-bar" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <!-- Center Stage & Magnitude -->
+            <div class="stage-center-box">
+                <div id="hud-stage-val" class="stage-badge">1. EXPLORING CITY</div>
+                <div class="intensity-badge">
+                    <span id="hud-level-indicator">LEVEL 1 •</span>
+                    <span>⚡ QUAKE:</span>
+                    <span id="hud-richter-val">7.0 Mw</span>
+                </div>
+            </div>
+
+            <!-- Minimap Radar Top Right -->
+            <div class="hud-panel radar-box">
+                <canvas id="minimap-canvas" width="120" height="120"></canvas>
+                <div class="radar-subtext">
+                    <span>SAFE ZONE:</span>
+                    <span id="hud-distance-val">85m</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Waypoint Compass Pill -->
+        <div id="hud-waypoint-pill" class="hud-waypoint-pill">
+            <span class="waypoint-pulse-dot"></span>
+            <span id="hud-waypoint-text" class="waypoint-text">SAFE ZONE: 76m</span>
+            <span id="hud-waypoint-arrow" class="waypoint-arrow">⬆</span>
+        </div>
+
+        <!-- Warning Flash Banner -->
+        <div id="warning-banner" class="hidden">⚠️ EARTHQUAKE IMMINENT - EVACUATE TO SAFE ZONE! ⚠️</div>
+
+        <!-- Real-Time Interactive Alert Notification Banner -->
+        <div id="hud-alert-banner" class="hud-alert-banner hidden"></div>
+
+        <!-- Bottom Bar -->
+        <div class="hud-bottom-bar">
+            <!-- Stamina & Health -->
+            <div class="hud-panel stamina-box">
+                <span class="hud-label">SPRINT STAMINA [SHIFT]</span>
+                <div class="progress-bar-bg" style="margin-top: 6px;">
+                    <div id="hud-stamina-bar" class="progress-bar-fill stamina-fill"></div>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="hud-actions-box">
+                <button id="btn-hud-cam" class="hud-btn">📷 View: FPS [V]</button>
+                <button id="btn-hud-inspector" class="hud-btn">📐 CG Inspector [C]</button>
+                <button id="btn-hud-viva" class="hud-btn">📚 Viva Guide</button>
+                <button id="btn-hud-sound" class="hud-btn">🔊 Audio ON</button>
+                <button id="btn-hud-menu" class="hud-btn">📋 Level Select</button>
+                <button id="btn-hud-restart" class="hud-btn">🔄 Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT / MISSION COMPLETED MODAL -->
+    <div id="result-modal" class="modal-overlay hidden">
+        <div class="result-card">
+            <!-- Mission Completed Tab Bar Header -->
+            <div id="modal-mission-bar" class="mission-bar-header success">
+                <span id="modal-badge" class="result-badge success">🏆 MISSION COMPLETED</span>
+                <div id="unlock-alert-banner" class="unlock-banner">✨ LEVEL 2 UNLOCKED! ✨</div>
+            </div>
+
+            <h2 id="modal-title" class="result-title">MISSION COMPLETED!</h2>
+            <p id="modal-subtitle" class="result-subtitle">Downtown Plaza Evacuation Complete</p>
+
+            <!-- 3 STARS REWARD CONTAINER -->
+            <div id="modal-stars-container" class="stars-rating-container">
+                <div class="stars-shelf" id="modal-stars-shelf">
+                    <div class="star-item" id="star-box-1" title="Star 1: Level Completed">
+                        <svg class="star-svg" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="star-item" id="star-box-2" title="Star 2: Great Score & Fast Evacuation">
+                        <svg class="star-svg" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="star-item" id="star-box-3" title="Star 3: High Score Excellence">
+                        <svg class="star-svg" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="modal-stars-label" class="stars-rating-label">⭐⭐⭐ 3 STARS - HIGH SCORE EXCELLENCE!</div>
+                <div id="modal-stars-criteria" class="stars-criteria-note">Stars awarded based on final score achieved</div>
+            </div>
+
+            <!-- SCORE SHOWCASE BANNER -->
+            <div class="result-score-banner">
+                <span class="score-banner-lbl">FINAL SURVIVAL SCORE</span>
+                <div class="score-val-row">
+                    <span id="modal-score-val" class="score-main-val">3,850 PTS</span>
+                </div>
+                <span id="modal-score-badge" class="score-tier-badge">🏆 HIGH SCORE ACHIEVED</span>
+            </div>
+
+            <div class="result-stats-table">
+                <div class="stat-row">
+                    <span class="lbl">Evacuation Time:</span>
+                    <span id="modal-time-val" class="val">24.5s</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl">Quake Intensity Faced:</span>
+                    <span id="modal-intensity-val" class="val">7.0 Mw (Medium)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="lbl">Performance Rank:</span>
+                    <span id="modal-rank-val" class="val">S Rank</span>
+                </div>
+                <div class="stat-row highlight">
+                    <span class="lbl">Star Rating:</span>
+                    <span id="modal-table-stars-val" class="val">⭐⭐⭐ (3 / 3 Stars)</span>
+                </div>
+            </div>
+
+            <div class="result-actions">
+                <button id="btn-modal-menu" class="btn-secondary" title="Return to Level Selection">📋 Select Level</button>
+                <button id="btn-modal-retry" class="btn-secondary" title="Replay current level">🔄 Replay</button>
+                <button id="btn-modal-next" class="btn-primary-action btn-next-level" title="Play next level">
+                    <span class="next-lbl-main" id="btn-next-label">Next Level</span>
+                    <span class="next-arrow">➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIVA / PRESENTATION GUIDE MODAL -->
+    <div id="viva-modal" class="modal-overlay hidden">
+        <div class="viva-card">
+            <div class="cg-panel-header">
+                <div class="cg-title">
+                    <span>📚 Section 12: Viva / Presentation Guide & Answers</span>
+                </div>
+                <button id="btn-close-viva" class="cg-icon-btn">✕</button>
+            </div>
+
+            <div class="viva-scroll-area">
+                <div class="viva-item">
+                    <div class="viva-q">1. Why was this project selected?</div>
+                    <div class="viva-a">It provides a compelling interactive application of core Computer Graphics concepts (3D transformations, perspective projections, dynamic lighting, real-time collision detection, and procedural animation) within an educational disaster management and survival game.</div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">2. Which Computer Graphics transformations are used?</div>
+                    <div class="viva-a">
+                        • <strong>Translation [T]:</strong> Moving player, updating falling debris kinematics $\vec{p}(t) = \vec{p}_0 + \vec{v}t + \frac{1}{2}\vec{g}t^2$, and ground seismic wave displacement.<br>
+                        • <strong>Rotation [R]:</strong> Euler angle rotations for building swaying, falling debris tumbling, and 6-DOF camera roll/pitch during tremors.<br>
+                        • <strong>Scaling [S]:</strong> Pulsing beacon rings in the safe zone and dynamic UI warning animations.
+                    </div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">3. How is earthquake shaking generated?</div>
+                    <div class="viva-a">Through composite harmonic sinusoidal wave synthesis: $d(t) = A_1 \sin(\omega_1 t) + A_2 \sin(\omega_2 t + \phi)$. Ground displacement and rotational sway are applied to building matrices, with amplitude scaling linearly with height.</div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">4. How is camera movement implemented?</div>
+                    <div class="viva-a">Using spherical coordinate transformations (yaw and pitch) for mouse look and View Matrix calculations. For third-person, an offset vector is rotated by yaw. 6-DOF trauma-based shake offsets are added to the camera position and rotation.</div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">5. How does collision detection work?</div>
+                    <div class="viva-a">Axis-Aligned Bounding Box (AABB) overlap testing. If the player's bounding box intersects a building or fallen debris block, movement along that axis is zeroed, enabling smooth sliding collision response.</div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">6. How are different earthquake intensities represented?</div>
+                    <div class="viva-a">Via the Richter scale parameter (Level 1: 5.5 Mw, Level 2: 6.9 Mw, Level 3: 8.4 Mw), which directly scales wave amplitude $A$, oscillation frequency $\omega$, debris spawn density, camera trauma, and restricts escape time.</div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">7. What are the game's win and lose conditions?</div>
+                    <div class="viva-a"><strong>Win:</strong> Player reaches within the safe zone radius before the countdown timer expires. <strong>Lose:</strong> Timer reaches 0.0s before reaching safety.</div>
+                </div>
+
+                <div class="viva-item">
+                    <div class="viva-q">8. Which parts are simulation and which parts are game mechanics?</div>
+                    <div class="viva-a"><strong>Simulation:</strong> Harmonic wave ground displacement, building structural swaying, gravity kinematics of falling debris, and trauma camera shake.<br><strong>Game Mechanics:</strong> Countdown timer, player health/stamina, minimap radar, scoring system, and obstacle route blocking.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offline Three.js with CDN Fallback -->
+    <script src="libs/three.min.js"></script>
+    <script>
+        if (typeof THREE === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+        }
+    </script>
+
+    <!-- Game Modules -->
+    <script src="js/audio.js"></script>
+    <script src="js/city.js"></script>
+    <script src="js/earthquake.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/cg_inspector.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

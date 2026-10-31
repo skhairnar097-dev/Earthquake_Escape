@@ -1,0 +1,29 @@
+==================================================
+   EARTHQUAKE ESCAPE - 3D OPENGL GAME
+==================================================
+
+HOW TO RUN:
+1. Double click on 'Play_Game.bat' or 'earthquake_escape.exe'.
+2. (Kisi compiler ya installation ki zarurat nahi hai!)
+
+GAME CONTROLS:
+- W, A, S, D / Arrow Keys : Move Player
+- Spacebar                : Jump over debris / Start game
+- F / E                   : Sprint / Fast Run (Uses Stamina)
+- Q, E / Mouse Drag       : Rotate Camera
+- V                       : Toggle 3rd Person / 1st Person Camera
+- 1, 2, 3, 4              : Choose Earthquake Intensity
+- L                       : Level Select (20 Levels)
+- R                       : Restart Level
+- M                       : Main Menu
+- ESC                     : Exit Game
+
+COLLECTIBLES:
+- Medkit (Green/White)    : Restore Stamina (+350 pts)
+- Adrenaline (Yellow)     : Speed Boost (+250 pts)
+- Chrono Timer (Cyan)     : +8 Seconds (+200 pts)
+- Shield Sphere (Blue)    : Debris Protection (+300 pts)
+
+OBJECTIVE:
+Dodge falling buildings & earthquake debris, and reach the Glowing Green Safe Zone!
+==================================================

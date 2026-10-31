@@ -87,6 +87,7 @@ An interactive 3D disaster simulation and emergency evacuation game developed fo
 
 ---
 
-## 👨‍💻 Author
+## 👥 Authors / Project Team
 - **Shubham Khairnar** — *Computer Graphics Mini-Project (2026)*
+- **Aditi Pawar** — *Computer Graphics Mini-Project (2026)*
 

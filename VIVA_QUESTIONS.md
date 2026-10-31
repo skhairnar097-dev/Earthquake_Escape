@@ -1,7 +1,7 @@
 # Earthquake Escape: Viva & Presentation Q&A Guide
 ### Interactive 3D Earthquake Simulation & Emergency Escape Game
 **Course:** Computer Graphics Mini-Project  
-**Author:** Shubham Khairnar  
+**Authors / Project Team:** Shubham Khairnar & Aditi Pawar  
 
 ---
 

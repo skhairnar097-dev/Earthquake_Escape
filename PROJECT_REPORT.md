@@ -3,7 +3,9 @@
 
 **Academic Year:** 2025–2026  
 **Subject:** Computer Graphics Laboratory / Mini-Project  
-**Student Name:** Shubham Khairnar  
+**Project Team / Authors:**  
+- **Shubham Khairnar**  
+- **Aditi Pawar**  
 
 ---
 
